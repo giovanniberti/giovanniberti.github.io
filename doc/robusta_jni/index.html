@@ -1,0 +1,154 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="`robusta_jni` is a library that provides a procedural macro to make easier to write JNI-compatible code in Rust."><meta name="keywords" content="rust, rustlang, rust-lang, robusta_jni"><title>robusta_jni - Rust</title><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../ayu.css" disabled ><script id="default-settings"></script><script src="../storage.js"></script><script src="../crates.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="alternate icon" type="image/png" href="../favicon-16x16.png">
+<link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><style type="text/css">#crate-search{background-image:url("../down-arrow.svg");}</style></head><body class="rustdoc mod"><!--[if lte IE 8]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../robusta_jni/index.html'><div class='logo-container rust-logo'><img src='../rust-logo.png' alt='logo'></div></a><p class="location">Crate robusta_jni</p><div class="block version"><p>Version 0.1.0</p></div><div class="sidebar-elems"><a id="all-types" href="all.html"><p>See all robusta_jni's items</p></a><div class="block items"><ul><li><a href="#reexports">Re-exports</a></li><li><a href="#modules">Modules</a></li><li><a href="#macros">Macros</a></li></ul></div><p class="location"></p><div id="sidebar-vars" data-name="robusta_jni" data-ty="mod" data-relpath="../"></div></div></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu"><img src="../brush.svg" width="18" height="18" alt="Pick another theme!"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" disabled autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" class="help-button">?</button>
+                <a id="settings-menu" href="../settings.html"><img src="../wheel.svg" width="18" height="18" alt="Change settings"></a></div></form></nav><section id="main" class="content"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="">robusta_jni</a><button id="copy-path" onclick="copy_path(this)">⎘</button></span><span class="out-of-band"><span id="render-detail"><a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span><a class="srclink" href="../src/robusta_jni/lib.rs.html#1-279" title="goto source code">[src]</a></span></h1><div class="docblock"><p><code>robusta_jni</code> is a library that provides a procedural macro to make easier to write JNI-compatible code in Rust.</p>
+<p>It can perform automatic conversion of Rust-y input and output types.</p>
+<pre><code class="language-toml">[dependencies]
+robusta_jni = &quot;0.1&quot;
+</code></pre>
+<h1 id="getting-started" class="section-header"><a href="#getting-started">Getting started</a></h1>
+<p>The <a href="../robusta_jni/attr.bridge.html"><code>#[bridge]</code></a> attribute is <code>robusta_jni</code>’s entry point. It must be applied to a module.
+<code>robusta_jni</code> will then generate proper function definitions and trait implementations depending on declared methods.</p>
+<h1 id="declaring-classes" class="section-header"><a href="#declaring-classes">Declaring classes</a></h1>
+<p>Rust counterparts of Java classes are declared as Rust <code>struct</code>s, with a <code>#[package(my.package.name)]</code> attribute.
+When using the default package, just omit the package name inside parentheses.</p>
+<p>Structs without the package attribute will be ignored by <code>robusta_jni</code>.</p>
+<p>In order to use the features of <code>robusta_jni</code>, declared structs should also implement the <a href="../robusta_jni/convert/trait.Signature.html"><code>Signature</code></a> trait.
+This can be done manually or with autoderive.</p>
+<p>Example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">use</span> <span class="ident">robusta_jni::bridge</span>;
+<span class="kw">use</span> <span class="ident">robusta_jni::convert::Signature</span>;
+
+<span class="attribute">#[<span class="ident">bridge</span>]</span>
+<span class="kw">mod</span> <span class="ident">jni</span> {
+    <span class="attribute">#[<span class="ident">package</span>()]</span> <span class="comment">// default package</span>
+    <span class="kw">struct</span> <span class="ident">A</span>;
+
+    <span class="kw">impl</span> <span class="ident">Signature</span> <span class="kw">for</span> <span class="ident">A</span> {
+        <span class="kw">const</span> <span class="ident">SIG_TYPE</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> <span class="op">=</span> <span class="string">&quot;LA;&quot;</span>;
+    }
+
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Signature</span>)]</span>
+    <span class="attribute">#[<span class="ident">package</span>(<span class="ident">my</span>.<span class="ident">awesome</span>.<span class="ident">package</span>)]</span>
+    <span class="kw">struct</span> <span class="ident">B</span>;
+}</pre></div>
+<h1 id="adding-native-methods" class="section-header"><a href="#adding-native-methods">Adding native methods</a></h1>
+<p>JNI bindings are generated for every method implemented for <code>package</code>-annotated structs.
+Each method can optionally specify a <code>#[call_type]</code> attribute that will determine how conversions between Rust and Java types are performed.
+For more information about conversions and <code>#[call_type]</code>, check out the <a href="../robusta_jni/convert/index.html">convert</a> module.</p>
+<p>In general, <strong>all input and output types must implement proper conversion traits</strong>
+(input types must implement <code>(Try)FromJavaValue</code> and output types must implement <code>(Try)IntoJavaValue</code>)</p>
+<p>Native methods can optionally accept a <a href="../jni/wrapper/jnienv/struct.JNIEnv.html"><code>JNIEnv</code></a> parameter as first parameter (after <code>self</code> if present).</p>
+<p>Methods are declared as standard Rust functions with public visibility and “jni” ABI, and are matched by name with Java methods.
+No special handling is needed.</p>
+<p>Example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">impl</span> <span class="ident">A</span> {
+    <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;jni&quot;</span> <span class="kw">fn</span> <span class="ident">op</span>(<span class="self">self</span>, <span class="ident">_env</span>: <span class="kw-2">&amp;</span><span class="ident">JNIEnv</span>, <span class="ident">flag</span>: <span class="ident">bool</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">i32</span> {
+        <span class="comment">//                       ^^^^^ optional</span>
+        <span class="kw">if</span> <span class="ident">flag</span> {
+            <span class="number">1</span>
+        } <span class="kw">else</span> {
+            <span class="number">0</span>
+        }
+    }
+
+    <span class="comment">// here the `env` parameter is omitted</span>
+    <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;jni&quot;</span> <span class="kw">fn</span> <span class="ident">special</span>(<span class="kw-2">mut</span> <span class="ident">input1</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>, <span class="ident">input2</span>: <span class="ident">i32</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+        <span class="ident">input1</span>.<span class="ident">push</span>(<span class="ident">input2</span>);
+        <span class="ident">input1</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="ident">ToString::to_string</span>).<span class="ident">collect</span>()
+    }
+
+}</pre></div>
+<h1 id="adding-java-methods" class="section-header"><a href="#adding-java-methods">Adding Java methods</a></h1>
+<p>You can also declare Java methods and <code>robusta</code> will generate binding glue to convert types and call methods on the Java side.
+Again, <strong>all input and output types must implement proper conversion traits</strong>: in this case it’s the reverse from the Java to Rust case
+(input types must implement <code>(Try)IntoJavaValue</code> and output types must implement <code>(Try)FromJavaValue</code>).</p>
+<p>Methods are declared as standard Rust functions with public visibility, a “java” ABI and an empty body, and are matched by name with Java methods.
+Both static and non-static methods must accept a <a href="../jni/wrapper/jnienv/struct.JNIEnv.html"><code>JNIEnv</code></a> parameter as first parameter (after self if present).</p>
+<p>Constructors can be declared via a <code>#[constructor]</code> attribute on static methods, and are matched by their type signature.</p>
+<p>When using <code>#[call_type(safe)]</code> or omitting <code>call_type</code> attribute, the output type <strong>must</strong> be <a href="../jni/wrapper/errors/type.Result.html"><code>jni::errors::Result&lt;T&gt;</code></a>
+with <code>T</code> being the actual method return type. Otherwise when using <code>#[call_type(unchecked)]</code> <code>T</code> is sufficient.</p>
+<p><strong>When using <code>#[call_type(unchecked)]</code> if a Java exception is thrown while calling a method a panic is raised.</strong></p>
+<h2 id="static-methods" class="section-header"><a href="#static-methods">Static methods</a></h2>
+<p>Example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">impl</span> <span class="ident">A</span> {
+    <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;java&quot;</span> <span class="kw">fn</span> <span class="ident">staticJavaMethod</span>(
+        <span class="ident">env</span>: <span class="kw-2">&amp;</span><span class="ident">JNIEnv</span>,
+        <span class="ident">i</span>: <span class="ident">i32</span>,
+        <span class="ident">u</span>: <span class="ident">i32</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::robusta_jni::jni::errors::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {}
+}</pre></div>
+<h2 id="non-static-methods" class="section-header"><a href="#non-static-methods">Non-static methods</a></h2>
+<p>Example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">impl</span> <span class="ident">A</span> {
+    <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;java&quot;</span> <span class="kw">fn</span> <span class="ident">selfMethod</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">env</span>: <span class="kw-2">&amp;</span><span class="ident">JNIEnv</span>,
+        <span class="ident">i</span>: <span class="ident">i32</span>,
+        <span class="ident">u</span>: <span class="ident">i32</span>,
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::robusta_jni::jni::errors::Result</span><span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span> {}
+}</pre></div>
+<h2 id="constructors" class="section-header"><a href="#constructors">Constructors</a></h2>
+<p>Example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered">
+<span class="kw">impl</span> <span class="ident">A</span> {
+    <span class="attribute">#[<span class="ident">constructor</span>]</span>  <span class="comment">//   vvv ---- this method name can be anything because it&#39;s a constructor</span>
+    <span class="kw">pub</span> <span class="kw">extern</span> <span class="string">&quot;java&quot;</span> <span class="kw">fn</span> <span class="ident">new</span>(
+        <span class="ident">env</span>: <span class="kw-2">&amp;</span><span class="ident">JNIEnv</span>
+    ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">::robusta_jni::jni::errors::Result</span><span class="op">&lt;</span><span class="self">Self</span><span class="op">&gt;</span> {}
+}</pre></div>
+<h1 id="conversion-details-and-special-lifetimes" class="section-header"><a href="#conversion-details-and-special-lifetimes">Conversion details and special lifetimes</a></h1>
+<p>The procedural macro handles two special lifetimes specially: <code>'env</code> and <code>'borrow</code>.</p>
+<p>When declaring structs with lifetimes you may be asked to name one of the lifetimes as <code>'env</code> in order to
+disambiguate code generation for the attribute macro.
+In the generated code, this lifetime would correspond to the one used to convert your type to <code>*IntoJavaValue</code>, like:</p>
+
+<div class='information'><div class='tooltip ignore'>ⓘ</div></div><div class="example-wrap"><pre class="rust rust-example-rendered ignore">
+<span class="op">&lt;</span><span class="ident">A</span><span class="op">&lt;</span><span class="lifetime">&#39;env</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="ident">TryIntoJavaValue</span><span class="op">&lt;</span><span class="lifetime">&#39;env</span><span class="op">&gt;</span><span class="op">&gt;</span></pre></div>
+<p>This lifetime is always used as the lifetime parameter of <code>JNIEnv</code> instances.</p>
+<p>When using <code>*FromJavaValue</code> derive macros your structs will be required to have both <code>'env</code> and <code>'borrow</code>,
+with the same bounds as in the trait definition. For more information, see the relevant traits documentation.</p>
+<h2 id="raising-exceptions" class="section-header"><a href="#raising-exceptions">Raising exceptions</a></h2>
+<p>You can make a Rust native method raise a Java exception simply by returning a <a href="../jni/wrapper/errors/type.Result.html" title="jni::errors::Result"><code>jni::errors::Result</code></a> with an <code>Err</code> variant.
+See the <a href="../robusta_jni/convert/index.html" title="convert"><code>convert</code></a> module documentation for more information.</p>
+<h2 id="library-provided-conversions" class="section-header"><a href="#library-provided-conversions">Library-provided conversions</a></h2><table><thead><tr><th><strong>Rust</strong></th><th><strong>Java</strong></th></tr></thead><tbody>
+<tr><td>i32</td><td>int</td></tr>
+<tr><td>bool</td><td>boolean</td></tr>
+<tr><td>char</td><td>char</td></tr>
+<tr><td>i8</td><td>byte</td></tr>
+<tr><td>f32</td><td>float</td></tr>
+<tr><td>f64</td><td>double</td></tr>
+<tr><td>i64</td><td>long</td></tr>
+<tr><td>i16</td><td>short</td></tr>
+<tr><td>String</td><td>String</td></tr>
+<tr><td>Vec&lt;T&gt;†</td><td>ArrayList&lt;T&gt;</td></tr>
+<tr><td><a href="../jni/wrapper/objects/jobject/struct.JObject.html">jni::JObject&lt;’env&gt;</a>                                      ‡</td><td><em>(any Java object as input type)</em></td></tr>
+<tr><td><a href="../jni_sys/type.jobject.html">jni::jobject</a></td><td><em>(any Java object as output)</em></td></tr>
+</tbody></table>
+<p>† Type parameter <code>T</code> must implement proper conversion types</p>
+<p>‡ The special <code>'env</code> lifetime <strong>must</strong> be used</p>
+<h2 id="limitations" class="section-header"><a href="#limitations">Limitations</a></h2>
+<p>Currently there are some limitations in the conversion mechanism:</p>
+<ul>
+<li>Boxed types are supported only through the opaque <code>JObject</code>/<code>jobject</code> types</li>
+<li>Automatic type conversion is limited to the table outlined above, though easily extendable if needed.</li>
+</ul>
+</div><h2 id="reexports" class="section-header"><a href="#reexports">Re-exports</a></h2>
+<table><tr><td><code>pub use <a class="mod" href="../jni/index.html" title="mod jni">jni</a>;</code></td></tr></table><h2 id="modules" class="section-header"><a href="#modules">Modules</a></h2>
+<table><tr class="module-item"><td><a class="mod" href="convert/index.html" title="robusta_jni::convert mod">convert</a></td><td class="docblock-short"><p>Conversion facilities.
+This module provides two trait families: <a href="../robusta_jni/convert/unchecked/trait.FromJavaValue.html" title="FromJavaValue">FromJavaValue</a>/<a href="../robusta_jni/convert/unchecked/trait.IntoJavaValue.html" title="IntoJavaValue">IntoJavaValue</a> (infallible conversions) and <a href="../robusta_jni/convert/safe/trait.TryFromJavaValue.html" title="TryFromJavaValue">TryFromJavaValue</a>/<a href="../robusta_jni/convert/safe/trait.TryIntoJavaValue.html" title="TryIntoJavaValue">TryIntoJavaValue</a> (fallible conversions),
+similar to the ones found in the standard library.</p>
+</td></tr></table><h2 id="macros" class="section-header"><a href="#macros">Macros</a></h2>
+<table><tr class="module-item"><td><a class="macro" href="macro.assert_type_eq_all.html" title="robusta_jni::assert_type_eq_all macro">assert_type_eq_all</a></td><td class="docblock-short"><p>Asserts that <em>all</em> types in a list are equal to each other.</p>
+</td></tr></table><h2 id="attributes" class="section-header"><a href="#attributes">Attribute Macros</a></h2>
+<table><tr class="module-item"><td><a class="attr" href="attr.bridge.html" title="robusta_jni::bridge attr">bridge</a></td><td class="docblock-short"></td></tr></table></section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../" data-current-crate="robusta_jni" data-search-js="../search-index.js"></div>
+    <script src="../main.js"></script></body></html>

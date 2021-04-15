@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ErrorKind","The kind of an error."]],"fn":[["jni_error_code_to_result",""]],"struct":[["Error","The Error type."],["Exception",""]],"trait":[["ResultExt","Additional methods for `Result`, for easy interaction with this crate."],["ToException",""]],"type":[["Result","Convenient wrapper around `std::Result`."]]});
