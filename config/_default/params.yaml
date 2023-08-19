@@ -1,0 +1,69 @@
+mainSections:
+    - post
+featuredImageField: image
+rssFullContent: true
+favicon:  # e.g.: favicon placed in `static/favicon.ico` of your site folder, then set this field to `/favicon.ico` (`/` is necessary)
+
+footer:
+    since: 2023
+    customText: "Made with ❤️ and a bit of 🧠"
+
+dateFormat:
+    published: Jan 02, 2006
+    lastUpdated: Jan 02, 2006 15:04 GMT+2
+
+sidebar:
+    emoji:
+    subtitle: A blog about software
+    avatar:
+        enabled: true
+        local: true
+        src: img/avatar.png
+
+article:
+    math: true
+    toc: true
+    readingTime: true
+    license:
+        enabled: true
+        default: Licensed under CC BY-NC-SA 4.0
+
+comments:
+    enabled: true
+    provider: disqus
+
+    disqusjs:
+        shortname:
+        apiUrl:
+        apiKey:
+        admin:
+        adminLabel:
+
+widgets:
+    homepage:
+        - type: search
+        - type: archives
+          params:
+              limit: 5
+        - type: categories
+          params:
+              limit: 10
+        - type: tag-cloud
+          params:
+              limit: 10
+    page:
+        - type: toc
+
+
+colorScheme:
+    # Display toggle
+    toggle: true
+
+    # Available values: auto, light, dark
+    default: auto
+
+imageProcessing:
+    cover:
+        enabled: true
+    content:
+        enabled: true

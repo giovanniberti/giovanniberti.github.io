@@ -1,0 +1,6 @@
+baseURL: 'http://giovanniberti.github.io/'
+languageCode: 'en-us'
+title: 'Random Walks'
+theme: 'hugo-theme-stack'
+enableInlineShortcodes: true
+enableEmoji: true
