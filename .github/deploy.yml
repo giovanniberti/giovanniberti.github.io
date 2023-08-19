@@ -46,4 +46,5 @@ jobs:
                   branch: gh-pages
                   folder: public
                   clean: true
+                  clean-exclude: doc
                   single-commit: true
