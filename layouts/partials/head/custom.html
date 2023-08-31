@@ -2,13 +2,18 @@
 	/* Overwrite CSS variable */
     :root {
         --code-font-family: "JetBrains Mono";
+        --article-font-family: "Atkinson Hyperlegible", var(--base-font-family);
     }
 </style>
+
+{{ $noticeSass := resources.Get "scss/notice.scss" }}
+{{ $noticeCSS := $noticeSass | resources.ToCSS }}
+<link rel="stylesheet" href="{{ $noticeCSS.Permalink }}">
 
 <script>
     (function () {
         const customFont = document.createElement('link');
-        customFont.href = "https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap";
+        customFont.href = "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono&display=swap";
     
         customFont.type = "text/css";
         customFont.rel = "stylesheet";

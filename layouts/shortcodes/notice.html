@@ -1,0 +1,5 @@
+{{ $kind := .Get 1 | default "note" }}
+<div class="notice {{ $kind }}">
+    <div><span style="inline-size: 1em;">{{ partial "icon" $kind }}</span><b class="notice-title">{{ .Get 0 }}</b></div>
+    {{ .Inner }}
+</div>
