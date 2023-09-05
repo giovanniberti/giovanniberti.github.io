@@ -9,9 +9,31 @@
     }
 </style>
 
-{{ $noticeSass := resources.Get "scss/notice.scss" }}
-{{ $noticeCSS := $noticeSass | resources.ToCSS }}
-<link rel="stylesheet" href="{{ $noticeCSS.Permalink }}">
+
+{{ $customStylesheets := slice "notice" "tippy" }}
+{{ $customStylesheetPaths := apply $customStylesheets "printf" "scss/%s.scss" "." }}
+{{ $customSass := apply $customStylesheetPaths "resources.Get" "." }}
+{{ $customCSS := apply $customSass "resources.ToCSS" "." }}
+
+{{ range $customCSS }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" />
+{{ end }}
+
+{{ $customTypescripts := slice "tippy" }}
+{{ $customTypescriptPaths := apply $customTypescripts "printf" "ts/%s.ts" "." }}
+{{ $customTypescriptResources := apply $customTypescriptPaths "resources.Get" "." }}
+{{- $opts := dict "minify" hugo.IsProduction -}}
+
+{{ $customJS := apply $customTypescriptResources "js.Build" $opts "." }}
+
+{{ range $customJS }}
+    <script type="text/javascript" src="{{ .RelPermalink }}" defer></script>
+{{ end }}
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://unpkg.com/tippy.js@6"></script>
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
+<link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light-border.css" />
 
 <script>
     (function () {

@@ -57,29 +57,29 @@
 
 [data-scheme="dark"] {
     .notice.note {
-        border-color: hsl(241, 57%, 73%);
+        border-color: hsl(241, 57%, 83%);
         background-color: hsl(241, 57%, 33%);
 
         .icon {
-            color:  hsl(241, 57%, 73%);
+            color:  hsl(241, 57%, 83%);
         }
     }
 
     .notice.info {
-        border-color: hsl(201, 99%, 86%);
-        background-color: hsl(201, 99%, 36%);
+        border-color: hsl(201, 99%, 96%);
+        background-color: hsl(201, 99%, 41%);
         
         .icon {
-            color: hsl(201, 99%, 86%);
+            color: hsl(201, 99%, 96%);
         }
     }
 
     .notice.warning {
-        border-color: hsl(44, 100%, 80%);
+        border-color: hsl(44, 100%, 90%);
         background-color: hsl(44, 100%, 40%);
 
         .icon {
-            color: hsl(44, 100%, 80%);
+            color: hsl(44, 100%, 90%);
         }
     }
 

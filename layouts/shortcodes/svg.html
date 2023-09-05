@@ -1,0 +1,9 @@
+{{ $class := "article-svg" }}
+{{ $match := `(?m:<svg)` }}
+{{ $replaceWith := printf `<svg class=%s` $class }}
+
+{{ $svgRes := .Page.Resources.GetMatch (.Get 0) }}
+{{ $svgFile :=  (path.Join (path.Dir .Page.File.Path) $svgRes) }}
+{{ $svgContents := (readFile $svgFile) }}
+{{- replaceRE $match $replaceWith $svgContents | safeHTML -}}
+<br>

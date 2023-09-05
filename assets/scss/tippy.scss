@@ -1,0 +1,29 @@
+.tippy-box {
+    font-size: 1em;
+}
+
+$placements: "top", "bottom", "left", "right";
+
+[data-scheme="light"] {
+    .tippy-box {
+        border: 1px solid black;
+    }
+
+    @each $placement in $placements {
+        .tippy-box[data-placement^='#{$placement}'] > .tippy-arrow::before {
+            border-#{$placement}-color: black;
+        }
+    }
+}
+
+[data-scheme="dark"] {
+    .tippy-box {
+        border: 1px solid white;
+    }
+
+    @each $placement in $placements {
+        .tippy-box[data-placement^='#{$placement}'] > .tippy-arrow::before {
+            border-#{$placement}-color: white;
+        }
+    }
+}
