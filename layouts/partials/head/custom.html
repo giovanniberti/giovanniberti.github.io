@@ -10,7 +10,7 @@
 </style>
 
 
-{{ $customStylesheets := slice "notice" "tippy" }}
+{{ $customStylesheets := slice "notice" "tippy" "equation" }}
 {{ $customStylesheetPaths := apply $customStylesheets "printf" "scss/%s.scss" "." }}
 {{ $customSass := apply $customStylesheetPaths "resources.Get" "." }}
 {{ $customCSS := apply $customSass "resources.ToCSS" "." }}

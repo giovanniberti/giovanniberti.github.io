@@ -1,0 +1,20 @@
+.equation .katex {
+    padding: 0;
+    background-color: var(--body-background-color);
+    border-radius: 0;
+}
+
+.katex {
+    padding: 2px;
+    background-color: var(--pre-background-color);
+    border-radius: 6px;
+}
+
+
+$kinds: "note", "info", "warning", "danger";
+
+@each $kind in $kinds {
+    .notice.#{$kind} .katex {
+        background-color: var(--notice-#{$kind}-accent-color);
+    }
+}
