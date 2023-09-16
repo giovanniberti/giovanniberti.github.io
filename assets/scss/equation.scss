@@ -13,7 +13,7 @@
 $kinds: "note", "info", "warning", "danger";
 
 @each $kind in $kinds {
-    .notice.#{$kind} {
+    .notice.#{$kind} .katex {
         background-color: var(--notice-#{$kind}-accent-color);
     }
 }
