@@ -30,14 +30,12 @@ article:
 
 comments:
     enabled: true
-    provider: disqus
+    provider: cactus
 
-    disqusjs:
-        shortname:
-        apiUrl:
-        apiKey:
-        admin:
-        adminLabel:
+    cactus:
+        defaultHomeserverUrl: "https://matrix.cactus.chat:8448"
+        serverName: "cactus.chat"
+        siteName: "giovanniberti-github-io"
 
 widgets:
     homepage:
