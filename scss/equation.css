@@ -1,0 +1,21 @@
+.katex {
+  padding: 2px;
+  background-color: var(--body-background);
+  border-radius: 6px; }
+
+.equation .katex {
+  padding: 0;
+  background-color: unset;
+  border-radius: 0; }
+
+.notice.note .katex {
+  background-color: var(--notice-note-accent-color); }
+
+.notice.info .katex {
+  background-color: var(--notice-info-accent-color); }
+
+.notice.warning .katex {
+  background-color: var(--notice-warning-accent-color); }
+
+.notice.danger .katex {
+  background-color: var(--notice-danger-accent-color); }

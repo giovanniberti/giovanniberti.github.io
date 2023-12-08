@@ -1,0 +1,32 @@
+.tippy-box {
+  font-size: 1em; }
+
+[data-scheme="light"] .tippy-box {
+  border: 1px solid black; }
+
+[data-scheme="light"] .tippy-box[data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: black; }
+
+[data-scheme="light"] .tippy-box[data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: black; }
+
+[data-scheme="light"] .tippy-box[data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: black; }
+
+[data-scheme="light"] .tippy-box[data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: black; }
+
+[data-scheme="dark"] .tippy-box {
+  border: 1px solid white; }
+
+[data-scheme="dark"] .tippy-box[data-placement^='top'] > .tippy-arrow::before {
+  border-top-color: white; }
+
+[data-scheme="dark"] .tippy-box[data-placement^='bottom'] > .tippy-arrow::before {
+  border-bottom-color: white; }
+
+[data-scheme="dark"] .tippy-box[data-placement^='left'] > .tippy-arrow::before {
+  border-left-color: white; }
+
+[data-scheme="dark"] .tippy-box[data-placement^='right'] > .tippy-arrow::before {
+  border-right-color: white; }
