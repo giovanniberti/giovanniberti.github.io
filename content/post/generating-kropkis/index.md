@@ -294,6 +294,8 @@ Given that I found KEN, it followed naturally that the frontend would be named [
 
 [And here it is!](https://kropki-gen.netlify.app) It's deployed on Fly.io for the backend (free tier) and Netlify for the frontend (also free tier), so it might be a bit slow to generate kropkis the first time you do it (and currently the frontend does not have input fields to write numbers down). Happy Kropking! :tada:
 
+P.S.: If you want to check out the source code, you can get the generator [here](https://github.com/giovanniberti/kropki_gen) and the frontend [here](https://github.com/giovanniberti/kropki_gen_fe) :slightly_smiling_face:
+
 > Featured photo by [Camille Minoufflet](https://unsplash.com/it/foto/d7M5Xramf8g).
 
 [^1]: Friendly Italian nickname for "Adele"
