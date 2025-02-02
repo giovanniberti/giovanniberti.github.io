@@ -13,7 +13,7 @@
 {{ $customStylesheets := slice "notice" "tippy" "equation" "svg" }}
 {{ $customStylesheetPaths := apply $customStylesheets "printf" "scss/%s.scss" "." }}
 {{ $customSass := apply $customStylesheetPaths "resources.Get" "." }}
-{{ $customCSS := apply $customSass "resources.ToCSS" "." }}
+{{ $customCSS := apply $customSass "css.Sass" "." }}
 
 {{ range $customCSS }}
     <link rel="stylesheet" href="{{ .RelPermalink }}" />
