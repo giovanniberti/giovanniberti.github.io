@@ -2,7 +2,7 @@
 title: "Plain strings are a code smell"
 date: 2025-02-02
 image: yarn.jpg
-categories: []
+categories: [software-design]
 ---
 
 When designing software[^1], using plain strings is a code smell, so much so that it can be almost seen as an antipattern.
